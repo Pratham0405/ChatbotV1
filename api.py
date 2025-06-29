@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
+import traceback
 
 # Load environment variables
 load_dotenv()
@@ -171,7 +172,10 @@ async def chat_endpoint(chat_request: ChatRequest):
         return response.completion.choices[0].message.content if response.completion.choices else {"message": "No content returned"}
         # return JSONResponse(content=response)
         
+    # except Exception as e:
+    #     raise HTTPException(status_code=500, detail=str(e))
     except Exception as e:
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 @app.get("/health")
 async def health_check():
