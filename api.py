@@ -110,7 +110,14 @@ class ChatAPI:
             }
             
             completion = self.client.chat.completions.create(**params)
-            return json.loads(completion.choices.message.content.to_json())
+            
+            # Return the first choice's message content
+            if completion.choices and len(completion.choices) > 0:
+                return {
+                    "content": completion.choices[0].message.content,
+                    "role": completion.choices[0].message.role
+                }
+            return {"error": "No completion choices returned"}
             
         except Exception as e:
             return {"error": str(e), "type": type(e).__name__}
@@ -169,14 +176,16 @@ async def chat_endpoint(chat_request: ChatRequest):
         if "error" in response:
             raise HTTPException(status_code=500, detail=response)
         
-        return response.completion.choices[0].message.content if response.completion.choices else {"message": "No content returned"}
-        # return JSONResponse(content=response)
+        return response
         
-    # except Exception as e:
-    #     raise HTTPException(status_code=500, detail=str(e))
     except Exception as e:
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
+    # except Exception as e:
+    #     raise HTTPException(status_code=500, detail=str(e))
+    # except Exception as e:
+    #     traceback.print_exc()
+    #     raise HTTPException(status_code=500, detail=str(e))
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""
