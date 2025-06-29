@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ user_message: message })
+            body: JSON.stringify({ user_message: message })  // ✅ Must match FastAPI input
         });
 
         if (!response.ok) {
