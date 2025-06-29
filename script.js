@@ -50,25 +50,25 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Replace this with your actual API call
     async function fetchChatAPI(message) {
-        // Example API call - replace with your actual endpoint
-        try {
-            const response = await fetch('YOUR_API_ENDPOINT', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ message: message })
-            });
-            
-            if (!response.ok) {
-                throw new Error('API request failed');
-            }
-            
-            const data = await response.json();
-            return data.reply; // Adjust based on your API response structure
-        } catch (error) {
-            console.error('API Error:', error);
-            throw error;
+    try {
+        const response = await fetch('https://chatbotv1-1.onrender.com/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ user_message: message })
+        });
+
+        if (!response.ok) {
+            throw new Error('API request failed');
         }
+
+        const data = await response.json();
+        return data; // Your API directly returns the bot message string
+    } catch (error) {
+        console.error('API Error:', error);
+        throw error;
     }
+}
+
 });
