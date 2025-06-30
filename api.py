@@ -9,6 +9,8 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 import traceback
+# app = FastAPI()
+
 
 # Load environment variables
 load_dotenv()
@@ -17,6 +19,15 @@ app = FastAPI(
     title="Azure OpenAI Chat API",
     description="API for interacting with Azure OpenAI's chat models",
     version="1.0.0"
+)
+
+# ✅ Add this to allow your frontend to access backend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # or restrict to ["https://pratham0405.github.io"]
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 class ChatRequest(BaseModel):
