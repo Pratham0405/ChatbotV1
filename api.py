@@ -9,6 +9,8 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 import traceback
+from fastapi.middleware.cors import CORSMiddleware
+
 # app = FastAPI()
 
 
