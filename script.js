@@ -64,7 +64,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const data = await response.json();
-        return data; // Your API directly returns the bot message string
+        // const data = await response.json();
+        console.log("API response:", data);
+        return data.content;  // ✅ This returns only the bot's message
+
     } catch (error) {
         console.error('API Error:', error);
         throw error;
